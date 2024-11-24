@@ -2,6 +2,8 @@ import React from 'react';
 import '../styles/App.scss';
 import Header from '../scripts/components/HeaderIndex';
 import About from '../scripts/components/About'; 
+import Events from '../scripts/components/Events'; 
+import Booking from '../scripts/components/Booking';
 
 const App = () => {
     return (
@@ -23,9 +25,11 @@ const App = () => {
               </div>
             </div>
           </section>
-          <About /> {/* Добавляем новый блок "О нас" */}
+          <About /> {}
+          <Events /> {}
+          <Booking /> {}
           <section id="contact">
-            {/* Контактная информация */}
+            {}
           </section>
         </main>
       </div>

@@ -1,0 +1,126 @@
+.booking-section {
+    text-align: center;
+    padding: 50px 20px;
+
+    .booking-title {
+        font-size: 36px;
+        margin-bottom: 20px;
+        color: #eeeced;
+    }
+
+    .booking-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+
+        .options {
+            flex: 0 0 25%; 
+            margin-right: 20px;
+
+            .dropdown,
+            .game-input,
+            .player-count,
+            .time-selection {
+                margin-bottom: 20px;
+
+                label {
+                    display: block;
+                    margin-bottom: 5px;
+                    color: #eeeced;
+                }
+
+                select,
+                input {
+                    width: 100%;
+                    padding: 10px;
+                    border-radius: 5px;
+                    border: 1px solid #ccc;
+                }
+            }
+
+            .book-button {
+                background-color: #FDBF6E;
+                color: white;
+                border: none;
+                padding: 10px 20px;
+                border-radius: 5px;
+                cursor: pointer;
+                transition: background-color 0.3s;
+
+                &:hover {
+                    background-color: #eeeced;
+                }
+            }
+        }
+
+        .calendar {
+            flex: 1;
+
+            h3 {
+                color: #eeeced;
+            }
+
+            .day-labels {
+                display: flex;
+                justify-content: space-between;
+                margin-bottom: 10px;
+
+                span {
+                    flex: 1;
+                    text-align: center;
+                    color: #eeeced;
+                }
+            }
+
+            .date-buttons {
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: center;
+
+                .date-button {
+                    width: 40px;
+                    height: 40px;
+                    margin: 5px;
+                    border: none;
+                    border-radius: 5px;
+                    background-color: #564C55;
+                    color: white;
+                    cursor: pointer;
+                    transition: background-color 0.3s;
+
+                    &.selected {
+                        background-color: #FDBF6E;
+                    }
+
+                    &.disabled {
+                        background-color: #ccc;
+                        cursor: not-allowed;
+                    }
+
+                    &:hover:not(.disabled) {
+                        background-color: #FDBF6E;
+                    }
+                }
+            }
+        }
+    }
+
+    .notification {
+        margin-top: 20px;
+        color: #eeeced;
+        font-size: 18px;
+    }
+}
+
+.notification-modal {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 15px;
+    border-radius: 5px;
+    z-index: 1000;
+    transition: opacity 0.5s ease;
+}

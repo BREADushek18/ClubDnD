@@ -1,0 +1,62 @@
+.events-section {
+    text-align: center;
+    padding: 50px 20px;
+
+    .events-title {
+        font-size: 36px;
+        margin-bottom: 20px;
+        color: #eeeced;
+    }
+
+    .event-container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+
+        .arrow {
+            background: transparent;
+            border: none;
+            color: #eeeced;
+            font-size: 24px;
+            cursor: pointer;
+            padding: 10px;
+            transition: color 0.3s;
+
+            &:hover {
+                color: #FDBF6E;
+            }
+        }
+
+        .event {
+            display: flex;
+            align-items: center;
+            margin: 0 20px;
+
+            .event-image {
+                width: 300px; 
+                height: auto;
+                border-radius: 10px;
+            }
+
+            .event-description {
+                margin-left: 20px;
+                text-align: left;
+
+                .signup-button {
+                    background-color: #564C55;
+                    color: white;
+                    border: 2px solid #FDBF6E;
+                    border-radius: 25px;
+                    padding: 0.5rem 1.5rem;
+                    text-decoration: none;
+                    transition: background-color 0.3s;
+
+                    &:hover {
+                        background-color: #FDBF6E;
+                    }
+                }
+            }
+        }
+    }
+}

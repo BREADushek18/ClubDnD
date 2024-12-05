@@ -1,87 +1,51 @@
 import React, { useState } from 'react';
-import { gamesList } from '../games';
+import GameSearch from './GameSearch';
 import '../../styles/Booking.scss';
-import { sendEmail } from './mailer';
 
 const Booking = () => {
     const [room, setRoom] = useState('');
     const [master, setMaster] = useState('');
     const [game, setGame] = useState('');
     const [playerCount, setPlayerCount] = useState('');
-    const [availableGames, setAvailableGames] = useState([]);
+    const [selectedMonth, setSelectedMonth] = useState('Декабрь');
     const [selectedDate, setSelectedDate] = useState(null);
     const [selectedTime, setSelectedTime] = useState('');
     const [notification, setNotification] = useState('');
+    const [isFormValid, setIsFormValid] = useState(false);
 
     const rooms = ['Общий зал', 'Комната "Лес"', 'Комната "Подземелье"', 'Комната "Космос"', 'Бронь общего зала'];
     const masters = ['Без мастера', 'Мастер Петр', 'Мастер Миша'];
+    const months = ['Декабрь', 'Январь'];
 
-    const handleGameInput = (e) => {
-        const inputValue = e.target.value;
-        setGame(inputValue);
-        if (inputValue) {
-            const filteredGames = gamesList.filter((g) => g.toLowerCase().includes(inputValue.toLowerCase()));
-            setAvailableGames(filteredGames);
-        } else {
-            setAvailableGames([]);
-        }
-    };
-
-    const handleDateClick = (date) => {
-        if (date.getDay() !== 1) { 
-            setSelectedDate(date);
+    const handleDateChange = (e) => {
+        const selectedDate = new Date(e.target.value);
+        if (selectedMonth === 'Декабрь' && (selectedDate.getDate() !== 2 && selectedDate.getDate() !== 9 && selectedDate.getDate() !== 16 && selectedDate.getDate() !== 23 && selectedDate.getDate() !== 30 && selectedDate.getDate() !== 31)) {
+            setSelectedDate(selectedDate);
+        } else if (selectedMonth === 'Январь' && (selectedDate.getDate() !== 1 && selectedDate.getDate() !== 2 && selectedDate.getDate() !== 3 && selectedDate.getDate() !== 4 && selectedDate.getDate() !== 5 && selectedDate.getDate() !== 6 && selectedDate.getDate() !== 13 && selectedDate.getDate() !== 20 && selectedDate.getDate() !== 27)) {
+            setSelectedDate(selectedDate);
         } else {
             setSelectedDate(null);
             setSelectedTime('');
         }
+        validateForm();
     };
 
-    const renderCalendar = () => {
+    const getDates = () => {
         const today = new Date();
         const dates = [];
-        for (let i = 0; i < 30; i++) {
-            const nextDate = new Date(today);
-            nextDate.setDate(today.getDate() + i);
+        const daysInMonth = selectedMonth === 'Декабрь' ? 31 : 31;
+        const firstDayOfMonth = new Date(today.getFullYear() + 1, selectedMonth === 'Декабрь' ? 0 : 1, 1);
+        const firstWeekday = firstDayOfMonth.getDay();
+        for (let i = 0; i < daysInMonth; i++) {
+            const nextDate = new Date(today.getFullYear() + 1, selectedMonth === 'Декабрь' ? 0 : 1, i + 1);
             dates.push(nextDate);
         }
-        const firstDayOfWeek = new Date(today);
-        firstDayOfWeek.setDate(today.getDate() - today.getDay()); 
-    
-        return (
-            <div>
-                <div className="day-labels">
-                    <span>ПН</span>
-                    <span>ВТ</span>
-                    <span>СР</span>
-                    <span>ЧТ</span>
-                    <span>ПТ</span>
-                    <span>СБ</span>
-                    <span>ВС</span>
-                </div>
-                <div className="date-buttons">
-                    {Array.from({ length: 30 }).map((_, index) => {
-                        const date = new Date(firstDayOfWeek);
-                        date.setDate(firstDayOfWeek.getDate() + index);
-                        const isDisabled = date.getDay() === 1; 
-                        const isSelected = selectedDate && date.toDateString() === selectedDate.toDateString();
-                        return (
-                            <button
-                                key={index}
-                                className={`date-button ${isSelected ? 'selected' : ''} ${isDisabled ? 'disabled' : ''}`}
-                                onClick={() => !isDisabled && handleDateClick(date)}
-                                disabled={isDisabled}
-                            >
-                                {date.getDate()}
-                            </button>
-                        );
-                    })}
-                </div>
-            </div>
-        );
+        return { dates, firstWeekday };
     };
 
     const handleTimeChange = (e) => {
         setSelectedTime(e.target.value);
+        validateForm();
     };
 
     const getAvailableTimes = () => {
@@ -95,90 +59,126 @@ const Booking = () => {
         return times;
     };
 
-    const [showNotification, setShowNotification] = useState(false);
+    const validateForm = () => {
+        setIsFormValid(room && master && game && playerCount && selectedDate && selectedTime);
+    };
 
     const handleBooking = () => {
-        sendEmail('recipient@gmail.com', 'Бронирование игры', 'Вы забронировали игру!');
-    
-        setShowNotification(true);
+        if (!isFormValid) {
+            setNotification('Заполните форму полностью. Возможно, вы не выбрали игру');
+            setTimeout(() => {
+                setNotification('');
+            }, 3000);
+            return;
+        }
+        setNotification('Теперь вы записаны на игру, ждем вас в гости!');
         setTimeout(() => {
-            setShowNotification(false);
+            setNotification('');
         }, 3000);
     };
 
     return (
         <section className="booking-section">
             <h2 className="booking-title">Бронирование</h2>
+            <p className="booking-description">Хотите записаться на игру? Заполните данную форму:</p>
             <div className="booking-container">
-                <div className="options">
-                    <div className="dropdown">
-                        <label>Выбрать комнату:</label>
-                        <select value={room} onChange={(e) => setRoom(e.target.value)}>
-                            <option value="">-- Выберите комнату --</option>
-                            {rooms.map((r, index) => (
-                                <option key={index} value={r}>{r}</option>
-                            ))}
-                        </select>
-                    </div>
-                    <div className="dropdown">
-                        <label>Выбрать мастера:</label>
-                        <select value={master} onChange={(e) => setMaster(e.target.value)}>
-                            <option value="">-- Выберите мастера --</option>
-                            {masters.map((m, index) => (
-                                <option key={index} value={m}>{m}</option>
-                            ))}
-                        </select>
-                    </div>
-                    <div className="game-input">
-                        <label>Выбрать игру:</label>
-                        <input
-                            type="text"
-                            value={game}
-                            onChange={handleGameInput}
-                            placeholder="Начните вводить название игры..."
-                        />
-                        {availableGames.length > 0 && (
-                            <ul className="game-suggestions">
-                                {availableGames.map((g, index) => (
-                                    <li key={index} onClick={() => setGame(g)}>{g}</li>
+                <div className="options-container">
+                    <div className="options">
+                        <div className="dropdown">
+                            <label>Выбрать комнату:</label>
+                            <select value={room} onChange={(e) => {
+                                setRoom(e.target.value);
+                                validateForm();
+                            }}>
+                                <option disabled value="">-- Выберите комнату --</option>
+                                {rooms.map((r, index) => (
+                                    <option key={index} value={r}>{r}</option>
                                 ))}
-                            </ul>
-                        )}
-                    </div>
-                    <div className="player-count">
-                        <label>Количество игроков с вами:</label>
-                        <input
-                            type="number"
-                            value={playerCount}
-                            onChange={(e) => setPlayerCount(e.target.value)}
-                            placeholder="До ... человек"
-                            min="1"
-                        />
-                    </div>
-                    {selectedDate && (
+                            </select>
+                        </div>
+                        <div className="dropdown">
+                            <label>Выбрать мастера:</label>
+                            <select value={master} onChange={(e) => {
+                                setMaster(e.target.value);
+                                validateForm();
+                            }}>
+                                <option disabled value="">-- Выберите мастера --</option>
+                                {masters.map((m, index) => (
+                                    <option key={index} value={m}>{m}</option>
+                                ))}
+                            </select>
+                        </div>
+                        <div className="game-input">
+                            <label>Выбрать игру:</label>
+                            <GameSearch
+                                onGameSelect={(selectedGame) => {
+                                    setGame(selectedGame);
+                                    validateForm();
+                                }}
+                            />
+                        </div>
+                        <div className="player-count">
+                            <label>Количество игроков с вами:</label>
+                            <input
+                                type="number"
+                                value={playerCount}
+                                onChange={(e) => {
+                                    setPlayerCount(e.target.value);
+                                    validateForm();
+                                }}
+                                placeholder="До ... человек"
+                                min="1"
+                            />
+                        </div>
+                        <div className="month-selection">
+                            <label>Выбрать месяц:</label>
+                            <select value={selectedMonth} onChange={(e) => {
+                                setSelectedMonth(e.target.value);
+                                setSelectedDate(null);
+                                setSelectedTime('');
+                                validateForm();
+                            }}>
+                                {months.map((m, index) => (
+                                    <option key={index} value={m}>{m}</option>
+                                ))}
+                            </select>
+                        </div>
+                        <div className="date-selection">
+                            <label>Выбрать дату:</label>
+                            <select value={selectedDate?.toISOString().slice(0, 10) || ''} onChange={handleDateChange}>
+                                <option disabled value="">-- Выберите дату --</option>
+                                {getDates().dates.map((date, index) => (
+                                    <option
+                                        key={index}
+                                        value={date.toISOString().slice(0, 10)}
+                                        disabled={
+                                            (selectedMonth === 'Декабрь' && (date.getDate() === 2 || date.getDate() === 9 || date.getDate() === 16 || date.getDate() === 23 || date.getDate() === 30 || date.getDate() === 31)) ||
+                                            (selectedMonth === 'Январь' && (date.getDate() === 1 || date.getDate() === 2 || date.getDate() === 3 || date.getDate() === 4 || date.getDate() === 5 || date.getDate() === 6 || date.getDate() === 13 || date.getDate() === 20 || date.getDate() === 27))
+                                        }
+                                    >
+                                        {date.getDate()}
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
                         <div className="time-selection">
                             <label>Выбрать время:</label>
                             <select value={selectedTime} onChange={handleTimeChange}>
-                                <option value="">-- Выберите время --</option>
-                                {getAvailableTimes().map((time, index) => (
+                                <option disabled value="">-- Выберите время --</option>
+                                {selectedDate && getAvailableTimes().map((time, index) => (
                                     <option key={index} value={time}>{time}</option>
                                 ))}
                             </select>
                         </div>
-                    )}
-                    {selectedTime && (
-                        <button className="book-button" onClick={handleBooking}>Записаться</button>
-                    )}
-                </div>
-                <div className="calendar">
-                    <h3>Выберите дату:</h3>
-                    {renderCalendar()}
+                        <button className={`book-button ${isFormValid ? '' : 'disabled'}`} onClick={handleBooking}>
+                            Записаться
+                        </button>
+                    </div>
                 </div>
             </div>
-            {notification && <div className="notification">{notification}</div>}
-            {showNotification && (
+            {notification && (
                 <div className="notification-modal">
-                    Теперь вы записаны на игру, ждем вас в гости!
+                    {notification}
                 </div>
             )}
         </section>

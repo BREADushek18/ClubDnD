@@ -1,40 +1,82 @@
 .booking-section {
-    text-align: center;
-    padding: 50px 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: auto;
+    background-image: url('../src/assets/images/BackCardTest2.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    padding: 30px 0;
 
     .booking-title {
         font-size: 36px;
+        margin-bottom: 10px;
+        color: #eeeced;
+    }
+
+    .booking-description {
+        font-size: 18px;
         margin-bottom: 20px;
         color: #eeeced;
     }
 
     .booking-container {
-        display: flex;
-        justify-content: space-between;
-        align-items: flex-start;
+        background-color: rgba(255, 255, 255, 0.7);
+        backdrop-filter: blur(10px);
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        width: 100%;
+        max-width: 600px;
+
+        .options-container {
+            display: flex;
+            justify-content: center;
+        }
 
         .options {
-            flex: 0 0 25%; 
-            margin-right: 20px;
+            width: 100%;
 
             .dropdown,
             .game-input,
             .player-count,
+            .month-selection,
+            .date-selection,
             .time-selection {
                 margin-bottom: 20px;
 
                 label {
                     display: block;
                     margin-bottom: 5px;
-                    color: #eeeced;
+                    color: #333;
+                    font-weight: bold;
                 }
 
-                select,
-                input {
+                select {
                     width: 100%;
                     padding: 10px;
                     border-radius: 5px;
                     border: 1px solid #ccc;
+                    background-color: rgba(0, 0, 0, 0.7);
+                    color: #fff;
+                    font-size: 16px;
+                }
+
+                input {
+                    width: 96.2%;
+                    padding: 10px;
+                    border-radius: 5px;
+                    border: 1px solid #ccc;
+                    background-color: rgba(0, 0, 0, 0.7);
+                    color: #fff;
+                    font-size: 16px;
+                }
+
+                input::placeholder {
+                    font-size: 16px;
                 }
             }
 
@@ -46,6 +88,52 @@
                 border-radius: 5px;
                 cursor: pointer;
                 transition: background-color 0.3s;
+                width: 30%;
+                font-size: 16px;
+
+                &:hover {
+                    background-color: #eeeced;
+                }
+
+                &.disabled {
+                    background-color: #ccc;
+                    cursor: not-allowed;
+
+                    &:hover {
+                        background-color: #ccc;
+                    }
+                }
+            }
+        }
+    }
+
+    .game-search-container {
+        .game-search-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            .game-search-input {
+                width: 80%;
+                padding: 10px;
+                border-radius: 5px;
+                border: 1px solid #ccc;
+                background-color: rgba(0, 0, 0, 0.7);
+                color: #fff;
+                font-size: 16px;
+                margin-right: 10px;
+            }
+
+            .game-search-button {
+                width: 18%;
+                background-color: #FDBF6E;
+                color: white;
+                border: none;
+                padding: 10px 20px;
+                border-radius: 5px;
+                cursor: pointer;
+                transition: background-color 0.3s;
+                font-size: 16px;
 
                 &:hover {
                     background-color: #eeeced;
@@ -53,74 +141,49 @@
             }
         }
 
-        .calendar {
-            flex: 1;
+        .game-suggestions-container {
+            margin-top: 10px;
+            background-color: white;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 5px;
 
-            h3 {
-                color: #eeeced;
+            .game-suggestion {
+                padding: 5px;
+                cursor: pointer;
             }
+        }
 
-            .day-labels {
-                display: flex;
-                justify-content: space-between;
-                margin-bottom: 10px;
+        .selected-game-container {
+            margin-top: 10px;
 
-                span {
-                    flex: 1;
-                    text-align: center;
-                    color: #eeeced;
-                }
-            }
+            .change-game-button {
+                margin-left: 10px;
+                background-color: #FDBF6E;
+                color: white;
+                border: none;
+                padding: 10px 20px;
+                border-radius: 5px;
+                cursor: pointer;
+                transition: background-color 0.3s;
+                font-size: 16px;
 
-            .date-buttons {
-                display: flex;
-                flex-wrap: wrap;
-                justify-content: center;
-
-                .date-button {
-                    width: 40px;
-                    height: 40px;
-                    margin: 5px;
-                    border: none;
-                    border-radius: 5px;
-                    background-color: #564C55;
-                    color: white;
-                    cursor: pointer;
-                    transition: background-color 0.3s;
-
-                    &.selected {
-                        background-color: #FDBF6E;
-                    }
-
-                    &.disabled {
-                        background-color: #ccc;
-                        cursor: not-allowed;
-                    }
-
-                    &:hover:not(.disabled) {
-                        background-color: #FDBF6E;
-                    }
+                &:hover {
+                    background-color: #eeeced;
                 }
             }
         }
     }
 
-    .notification {
-        margin-top: 20px;
-        color: #eeeced;
-        font-size: 18px;
+    .notification-modal {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        background-color: rgba(0, 0, 0, 0.7);
+        color: white;
+        padding: 15px;
+        border-radius: 5px;
+        z-index: 1000;
+        transition: opacity 0.5s ease;
     }
-}
-
-.notification-modal {
-    position: fixed;
-    bottom: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    background-color: rgba(0, 0, 0, 0.7);
-    color: white;
-    padding: 15px;
-    border-radius: 5px;
-    z-index: 1000;
-    transition: opacity 0.5s ease;
 }

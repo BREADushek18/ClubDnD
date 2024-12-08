@@ -1,8 +1,16 @@
 .events-section {
     text-align: center;
-    padding: 50px 20px;
+    background-image: url('../assets/images/BackWithLogo2.jpg');
+    background-position: top;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-bottom: 80px;
 
     .events-title {
+        padding-top: 80px;
+        padding-bottom: 40px;
         font-size: 36px;
         margin-bottom: 20px;
         color: #eeeced;
@@ -13,6 +21,7 @@
         align-items: center;
         justify-content: center;
         position: relative;
+        height: 80%;
 
         .arrow {
             background: transparent;
@@ -31,23 +40,54 @@
         .event {
             display: flex;
             align-items: center;
-            margin: 0 20px;
+            justify-content: center;
+            width: 80%;
+            height: 100%;
 
-            .event-image {
-                width: 300px; 
-                height: auto;
-                border-radius: 10px;
+            .event-image-container {
+                flex: 1;
+                height: 100%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+
+                .event-image {
+                    max-width: 100%;
+                    max-height: 100%;
+                    object-fit: contain;
+                    border-radius: 35px;
+                }
             }
 
-            .event-description {
-                margin-left: 20px;
+            .event-details-container {
+                flex: 1;
+                height: 100%;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: flex-start;
                 text-align: left;
+                padding: 0 20px;
+
+                .event-title {
+                    font-size: 24px;
+                    margin-bottom: 10px;
+                    color: #FDBF6E;
+                    font-family: 'Inter-Bold', sans-serif;
+                }
+
+                .event-details {
+                    font-size: 16px;
+                    margin-bottom: 20px;
+                    color: #eeeced;
+                    font-family: 'Inter-Medium', sans-serif;
+                }
 
                 .signup-button {
                     background-color: #564C55;
                     color: white;
                     border: 2px solid #FDBF6E;
-                    border-radius: 25px;
+                    border-radius: 15px;
                     padding: 0.5rem 1.5rem;
                     text-decoration: none;
                     transition: background-color 0.3s;
@@ -58,5 +98,17 @@
                 }
             }
         }
+    }
+
+    .notification-modal {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        background-color: rgba(0, 0, 0, 0.7);
+        color: white;
+        padding: 15px;
+        border-radius: 5px;
+        z-index: 1000;
+        transition: opacity 0.5s ease;
     }
 }

@@ -4,74 +4,26 @@ $app-background: #65483D;
   margin: 0;
   }
   
+@font-face {
+  font-family: "Inter-Bold";  
+  src: url("../assets/fonts/Inter-Bold.otf") format("truetype");
+}
+@font-face {
+  font-family: "Inter-Medium";  
+  src: url("../assets/fonts/Inter-Medium.otf") format("truetype");
+}
+
+@font-face {
+  font-family: "Inter-ExtraBoldItalic";  
+  src: url("../assets/fonts/Inter-ExtraBoldItalic.otf") format("truetype");
+}
+
+@font-face {
+  font-family: "Inter-LightItalic";  
+  src: url("../assets/fonts/Inter-LightItalic.otf") format("truetype");
+}
 .app {
   background-color: $app-background;
-  font-family: Arial, sans-serif;
+  font-family: "Inter";
   color: #eeeced;
-}
-.hero-section {
-  background-image: url('../assets/images/HeroImageBack.jpg'); 
-  background-size: cover;
-  background-position: center;
-  width: 100%;
-  height: auto;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: relative;
-  margin-top: 15px;
-}
-
-.overlay {
-  background-color: rgba(0, 0, 0, 0.5);
-  width: 100%;
-  height: 100%;
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  padding-left: 20%; 
-  text-align: left;
-}
-
-.text-container {
-  margin: 16% 0% 16% 0%;
-}
-
-h3 {
-  font-size: 1.5rem;
-  margin-bottom: 1rem;
-}
-
-h1 {
-  font-size: 2.5rem;
-  margin-bottom: 1rem;
-}
-
-p {
-  font-size: 1.0rem;
-  margin-bottom: 1.5rem;
-}
-
-.button-container {
-  display: flex;
-  gap: 10px;
-}
-
-.button-wrapper {
-  display: flex;
-  align-items: center;
-}
-
-.signup-button {
-  background-color: #564C55;
-  color: white;
-  border: 2px solid #FDBF6E;
-  border-radius: 25px;
-  padding: 0.5rem 1.5rem;
-  text-decoration: none;
-  transition: background-color 0.3s;
-
-  &:hover {
-    background-color: #9E8279;
-  }
 }
